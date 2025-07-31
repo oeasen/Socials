@@ -1,0 +1,708 @@
+/* style.css */
+:root {
+  --primary: #ffffff;
+  --accent: #ff3b3f;
+  --glass-bg: rgba(255, 255, 255, 0.06);
+  --glass-br: rgba(255, 255, 255, 0.18);
+  --shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+
+  /* Custom CSS variables for cursor position */
+  --mouse-x: 0px;
+  --mouse-y: 0px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none; /* Disables text selection */
+  -webkit-user-select: none; /* For Safari */
+  -moz-user-select: none; /* For Firefox */
+  -ms-user-select: none; /* For IE/Edge */
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  color: var(--primary);
+  background: #000;
+  overflow: hidden; /* Default: no scrolling on desktop */
+  position: relative;
+  z-index: 0;
+
+  /* CUSTOM CURSOR: Hide the default system cursor globally and forcefully */
+  cursor: none !important;
+}
+
+/* Custom cursor visual using a pseudo-element */
+body::after {
+  content: ''; /* Essential for pseudo-elements to render */
+  position: fixed;
+  top: var(--mouse-y); /* Controlled by JavaScript */
+  left: var(--mouse-x); /* Controlled by JavaScript */
+  width: 12px; /* Smaller size for the cursor */
+  height: 12px; /* Smaller size for the cursor */
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.4); /* Slightly more opaque white */
+  border: 1px solid rgba(255, 255, 255, 0.7); /* More prominent border */
+  pointer-events: none; /* CRUCIAL: ensures clicks go through to elements below */
+  transform: translate(-50%, -50%); /* Center the pseudo-element on the mouse */
+  z-index: 9999; /* Ensure it's on top of everything else */
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.8), /* White glow */
+              0 0 8px rgba(255, 255, 255, 0.5), /* Larger, softer white glow */
+              0 0 5px rgba(0, 0, 0, 0.6); /* Black shadow */
+  transition: transform 0.1s ease-out;
+  opacity: 1; /* Always visible */
+}
+
+/* IMPORTANT: Force all interactive elements to also have no default cursor */
+a, button, input[type="range"], #splash-screen, #music-player {
+  cursor: none !important; /* Force no default cursor, let body::after be the visual */
+}
+
+img {
+  pointer-events: none; /* Disables interaction with images */
+}
+
+/* --- Particle Canvas Style --- */
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* Position between video and content */
+  pointer-events: none; /* Make sure it's not clickable */
+}
+
+/* Background Video */
+.bg-video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 100vh;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  z-index: -2;
+  filter: brightness(0.45) saturate(1.2);
+}
+
+/* Layout */
+.container {
+  display: flex;
+  align-items: center; /* Vertically centers items in the row */
+  height: 100vh;
+  padding: 0 clamp(1rem, 5vw, 4rem);
+  z-index: 1;
+  gap: 3rem;
+}
+
+/* Profile */
+.profile-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers items horizontally within profile-col */
+  gap: 2rem;
+  min-width: 200px;
+  position: relative; /* Crucial: Establishes a positioning context for absolute children */
+}
+
+.divider {
+  width: 2px;
+  background: var(--primary);
+  height: 60%;
+  opacity: 0.5;
+}
+
+/* Avatar */
+.avatar {
+  --s: 150px;
+  width: var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--primary);
+  box-shadow: var(--shadow);
+  transition: transform 0.4s ease;
+  position: relative; /* Ensure avatar is above visualizer */
+  z-index: 1; /* Keep avatar above the visualizer */
+}
+
+.avatar:hover {
+  transform: scale(0.92);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Main Text */
+main {
+  max-width: 640px;
+  display: block;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 8vw, 5.5rem);
+  font-weight: 800;
+  line-height: 0.9;
+  text-align: left; /* Default text alignment for desktop */
+  color: var(--primary); /* Base color for the text */
+  opacity: 0; /* Start hidden for the lamp effect */
+  /* Initial state of text-shadow before animation starts */
+  text-shadow: none;
+}
+
+/* Lamp Startup Animation Class */
+h1.lamp-effect {
+  animation: lamp-startup 3.5s ease-out forwards; /* 3.5s duration, stays at end state */
+}
+
+/* Keyframes for the realistic lamp startup effect */
+@keyframes lamp-startup {
+  /* Initial state: lamp is off */
+  0% {
+    opacity: 0;
+    text-shadow: none;
+  }
+  /* Brief, irregular flashes and stutters */
+  0.5% {
+    opacity: 0.1;
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.1);
+  }
+  1% {
+    opacity: 0;
+    text-shadow: none;
+  }
+  2% {
+    opacity: 0.05;
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+  2.5% {
+    opacity: 0;
+    text-shadow: none;
+  }
+  5% {
+    opacity: 0.7; /* Brighter flash */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+  5.1% {
+    opacity: 0; /* Quick off */
+    text-shadow: none;
+  }
+  7% {
+    opacity: 0.15;
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.1);
+  }
+  7.5% {
+    opacity: 0;
+    text-shadow: none;
+  }
+  10% {
+    opacity: 0.6; /* Another flash */
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+  }
+  10.1% {
+    opacity: 0;
+    text-shadow: none;
+  }
+  15% {
+    opacity: 0.05;
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+  20% {
+    opacity: 0.3; /* Dim, trying to come on */
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
+  }
+  25% {
+    opacity: 0.8; /* Stronger flash */
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+  }
+  25.1% {
+    opacity: 0.2; /* Stutter */
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
+  }
+  30% {
+    opacity: 0.9; /* Almost on */
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+  }
+  35% {
+    opacity: 0.7; /* Slight dip */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+  40% {
+    opacity: 0.95;
+    text-shadow: 0 0 18px rgba(255, 255, 255, 0.8);
+  }
+  /* Gradual illumination and stabilization */
+  50% {
+    opacity: 0.98;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
+  }
+  100% {
+    opacity: 1; /* Fully on */
+    /* Final stable glow: subtle white halo */
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.7),
+                 0 0 15px rgba(255, 255, 255, 0.4);
+  }
+}
+
+p {
+  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+  font-weight: 300;
+  line-height: 1.55;
+  opacity: 0;
+  animation: fadeIn 1s ease 0.3s forwards;
+  margin-top: 1.5rem;
+  text-align: left; /* Default text alignment for desktop */
+  text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+/* Socials */
+.socials {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 2rem;
+  justify-content: flex-start; /* Ensure left alignment on desktop */
+}
+
+.socials a {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-br);
+  box-shadow: var(--shadow); /* Added for consistency */
+  transition: 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+.socials img {
+  width: 60%;
+  pointer-events: none;
+  user-select: none;
+}
+
+.socials a:hover {
+  transform: translateY(-4px) scale(1.05);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Removed old volume capsule styles */
+
+
+/* Ripple Effect */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Music Player Styles --- */
+#music-player {
+  position: fixed; /* Allows custom positioning */
+  top: 27%; /* Default vertical center */
+  left: 95rem; /* Default position on the left side */
+  /* REMOVED: transform: translateY(-50%); */ /* Removed due to tilt.js conflict */
+  width: 280px; /* Fixed width as per image */
+  padding: 1.5rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-br);
+  border-radius: 20px;
+  /* REMOVED: box-shadow: var(--shadow); */ /* Tilt.js handles shadow */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  z-index: 10; /* Ensure it's above other content */
+  /* REMOVED: cursor: grab; */ /* Make it unmoveable by mouse */
+  /* REMOVED: transition: box-shadow 0.2s ease-in-out; */ /* Tilt.js handles transition */
+}
+
+/* REMOVED: #music-player.dragging */
+/* REMOVED: cursor: grabbing; */
+/* REMOVED: box-shadow: 0 0 25px rgba(255, 255, 255, 0.3), var(--shadow); */
+
+
+.player-header {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.4rem 1.2rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.album-art {
+  width: 150px;
+  height: 150px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden; /* For the glow effect */
+}
+
+.album-art .music-note-icon {
+  width: 60px;
+  height: 60px;
+  color: var(--primary);
+  opacity: 0.7;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+}
+
+/* NEW: Style for the album art image */
+.album-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the area without distortion */
+  border-radius: 15px; /* Match parent's border-radius */
+}
+
+/* Hide the music note icon (if it was still there or for fallback) */
+.album-art .music-note-icon {
+  display: none;
+}
+
+/* Glow effect for album art */
+.album-art::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #a06ee6, #6ee6e6); /* Purple to Cyan gradient */
+  filter: blur(20px);
+  opacity: 0.6;
+  z-index: -1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.song-info {
+  text-align: center;
+  margin-top: -0.5rem;
+}
+
+.song-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px; /* Prevent long titles from breaking layout */
+}
+
+.song-artist {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.2rem;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.controls button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  color: var(--primary);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.controls button svg {
+  width: 20px;
+  height: 20px;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+}
+
+.controls button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.playback-controls button {
+  width: 50px;
+  height: 50px;
+}
+
+.playback-controls button svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* CORRECTED: This rule now only targets the icons, not the splash screen */
+.playback-controls .hidden {
+  display: none;
+}
+
+.playback-controls #play-pause-btn {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 15px rgba(255, 59, 63, 0.6);
+}
+
+.playback-controls #play-pause-btn:hover {
+  background: #ff5b5f;
+  border-color: #ff5b5f;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 59, 63, 0.8);
+}
+
+/* New Volume Slider Styles */
+.volume-slider-new {
+  /* slider */
+  --slider-width: 100%;
+  --slider-height: 6px;
+  --slider-bg: rgb(82, 82, 82);
+  --slider-border-radius: 999px;
+  /* level */
+  --level-color: #fff;
+  --level-transition-duration: .1s;
+  /* icon */
+  --icon-margin: 15px;
+  --icon-color: var(--primary); /* Changed to primary color for visibility */
+  --icon-size: 25px;
+
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%; /* Make it take full width of music player */
+  margin-top: 1rem; /* Add some space from playback controls */
+}
+
+.volume-slider-new .volume {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: var(--icon-margin);
+  color: var(--icon-color);
+  width: var(--icon-size);
+  height: auto;
+}
+
+.volume-slider-new .level {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: var(--slider-width);
+  height: var(--slider-height);
+  background: var(--slider-bg);
+  overflow: hidden;
+  border-radius: var(--slider-border-radius);
+  -webkit-transition: height var(--level-transition-duration);
+  -o-transition: height var(--level-transition-duration);
+  transition: height var(--level-transition-duration);
+  cursor: inherit;
+}
+
+.volume-slider-new .level::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 0;
+  height: 0;
+  -webkit-box-shadow: -200px 0 0 200px var(--level-color);
+  box-shadow: -200px 0 0 200px var(--level-color);
+}
+
+.volume-slider-new:hover .level {
+  height: calc(var(--slider-height) * 2);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  /* Enable scrolling on phone devices */
+  html, body {
+    overflow-y: auto; /* Allow vertical scrolling */
+    height: auto; /* Allow content to dictate height */
+    cursor: auto !important; /* Re-enable default cursor */
+  }
+
+  /* Disable custom cursor visual on phone devices */
+  body::after {
+    display: none !important; /* Hide the custom cursor visual */
+  }
+
+  /* Ensure interactive elements also show default cursor on mobile */
+  a, button, input[type="range"], #splash-screen, #music-player {
+    cursor: auto !important;
+  }
+
+  .container {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 0 1rem;
+    align-items: center;
+    justify-content: flex-start; /* Adjust to allow content to flow from top */
+    height: auto; /* Allow content to dictate height */
+    min-height: 100vh; /* Ensure it takes at least full viewport height */
+  }
+
+  .profile-col {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    align-items: center;
+    order: -1;
+    padding-top: 3rem;
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .avatar {
+    --s: 180px;
+    width: var(--s);
+    height: var(--s);
+  }
+
+  main {
+    max-width: 100%;
+    text-align: center;
+    padding-bottom: 5rem;
+    margin-top: 0;
+  }
+
+  h1, p {
+    text-align: center;
+  }
+
+  p {
+    margin-top: 1rem;
+  }
+
+  .socials {
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  #music-player {
+    position: relative; /* Change to relative for mobile flow */
+    top: auto;
+    left: auto;
+    transform: none;
+    margin-top: 2rem; /* Add some space from elements above */
+    width: 90%; /* Adjust width for mobile */
+    max-width: 320px; /* Max width for larger mobiles */
+  }
+}
+
+/* Splash Screen Styles */
+#splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  /* background-image: url('splash-bg.jpg'); */ /* Optional: uncomment if you have a splash background */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.8s ease-out;
+}
+
+#splash-screen span {
+  color: var(--primary);
+  font-size: 1.2rem;
+  font-weight: 400;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Class to hide splash screen */
+#splash-screen.hidden {
+  opacity: 0;
+  pointer-events: none; /* Make it non-interactive after fade */
+}
+
+/* --- Audio Visualizer Styles (UPDATED) --- */
+#audio-visualizer {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(1px);
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* --- Accessibility: Reduce motion for users who prefer it --- */
+@media (prefers-reduced-motion) {
+  h1.lamp-effect {
+    /* Instantly on, no flicker */
+    opacity: 1;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.7),
+                 0 0 15px rgba(255, 255, 255, 0.4);
+    animation: none; /* Disable lamp-startup animation */
+  }
+  .bg-video {
+    animation: none;
+    transition: none;
+  }
+  #particle-canvas {
+    display: none; /* Hide particles */
+  }
+
+  #splash-screen {
+    transition: none;
+  }
+}

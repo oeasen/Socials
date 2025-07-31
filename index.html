@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oeasen's Social Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="assets/icons/profile.png" type="image/png">
+</head>
+<body oncontextmenu="return false;">
+
+  <canvas id="particle-canvas"></canvas>
+  <div id="splash-screen">
+    <span>Click here to continue...</span>
+  </div>
+
+  <video class="bg-video" id="bg-video" autoplay muted loop playsinline>
+    <source src="assets/videos/video.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <audio id="bg-audio" preload="auto" loop></audio>
+
+  <div class="container">
+    <aside class="profile-col">
+      <div class="avatar">
+        <img src="assets/icons/profile.png" alt="Avatar" />
+      </div>
+      <div class="divider"></div>
+      <canvas id="audio-visualizer"></canvas>
+    </aside>
+
+    <div id="music-player" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-perspective="1000">
+      <div class="player-header">Music</div>
+      <div class="album-art">
+        <img id="album-art-img" src="" alt="Album Art" />
+      </div>
+      <div class="song-info">
+        <div class="song-title"></div> <div class="song-artist"></div> </div>
+      <div class="controls playback-controls">
+        <button id="prev-btn" aria-label="Previous Song">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 6h2v12H6zm3.5 6l8.5 6V6l-8.5 6z"/>
+          </svg>
+        </button>
+        <button id="play-pause-btn" aria-label="Play/Pause">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="play-icon">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="pause-icon hidden">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+          </svg>
+        </button>
+        <button id="next-btn" aria-label="Next Song">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 18l8.5-6L6 6v12zm9-12v12h2V6h-2z"/>
+          </svg>
+        </button>
+      </div>
+      <label class="slider volume-slider-new">
+        <input type="range" class="level" min="0" max="1" step="0.01" value="0.1">
+        <svg class="volume" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve">
+          <g>
+            <path d="M18.36 19.36a1 1 0 0 1-.705-1.71C19.167 16.148 20 14.142 20 12s-.833-4.148-2.345-5.65a1 1 0 1 1 1.41-1.419C20.958 6.812 22 9.322 22 12s-1.042 5.188-2.935 7.069a.997.997 0 0 1-.705.291z" fill="currentColor" data-original="#000000"></path>
+            <path d="M15.53 16.53a.999.999 0 0 1-.703-1.711C15.572 14.082 16 13.054 16 12s-.428-2.082-1.173-2.819a1 1 0 1 1 1.406-1.422A6 6 0 0 1 18 12a6 6 0 0 1-1.767 4.241.996.996 0 0 1-.703.289zM12 22a1 1 0 0 1-.707-.293L6.586 17H4c-1.103 0-2-.897-2-2V9c0-1.103.897-2 2-2h2.586l4.707-4.707A.998.998 0 0 1 13 3v18a1 1 0 0 1-1 1z" fill="currentColor" data-original="#000000"></path>
+          </g>
+        </svg>
+      </label>
+    </div>
+
+    <main>
+      <main>
+        <h1 class="lamp-effect">Oeasen</h1>
+        <p>
+          Hi, I'm Oeasen, a creator from Slovakia. I'm into video games,
+          programming, and occasionally making videos and doing photography.
+          <br><br>
+          I enjoy experimenting with tech and creative tools in my free time.
+          If you like what I do, feel free to follow me on my socials!
+        </p>
+        </main>
+
+      <nav class="socials">
+        <a href="https://www.instagram.com/adamec.jls/" target="_blank">
+          <img src="assets/icons/instagram.png" alt="Instagram" />
+        </a>
+        <a href="https://open.spotify.com/playlist/75q7E72JSqCJOEROcVqd8N" target="_blank">
+          <img src="assets/icons/spotify.png" alt="Spotify" />
+        </a>
+        <a href="https://steamcommunity.com/id/oeasen/" target="_blank">
+          <img src="assets/icons/steam.png" alt="Steam" />
+        </a>
+        <a href="https://www.tiktok.com/@oeasen" target="_blank">
+          <img src="assets/icons/tiktok.png" alt="TikTok" />
+        </a>
+        <a href="https://www.youtube.com/@oeasen" target="_blank">
+          <img src="assets/icons/youtube.png" alt="YouTube" />
+        </a>
+      </nav>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
