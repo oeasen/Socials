@@ -345,8 +345,37 @@ p {
   align-items: center;
   gap: 1.2rem;
   z-index: 10; /* Ensure it's above other content */
+  overflow: hidden; /* This contains the new glow effect */
   /* REMOVED: cursor: grab; */ /* Make it unmoveable by mouse */
   /* REMOVED: transition: box-shadow 0.2s ease-in-out; */ /* Tilt.js handles transition */
+}
+
+/* Animated Border Glow Effect */
+@keyframes rotate-glow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#music-player::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  z-index: -1; /* Places the glow behind the card's content */
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    transparent,
+    rgb(253, 212, 212), /* A bright red accent color */
+    transparent,
+    rgb(117, 117, 117) /* The purple color, now in RGB */
+  );
+  animation: rotate-glow 4s linear infinite; /* Applies the rotation animation */
+  filter: blur(30px); /* This creates the soft "glow" */
 }
 
 /* REMOVED: #music-player.dragging */

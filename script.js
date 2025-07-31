@@ -262,15 +262,19 @@ document.querySelectorAll('.socials a').forEach((btn) => {
   });
 });
 
-// === Custom Cursor Logic (Disabled on phone devices) ===
-// Only enable custom cursor logic if the screen width is greater than 900px
-if (window.innerWidth > 900) {
-  document.addEventListener('mousemove', (e) => {
-    document.body.style.setProperty('--mouse-x', `${e.clientX}px`);
-    document.body.style.setProperty('--mouse-y', `${e.clientY}px`);
-  });
-}
+// === Custom Cursor Logic (REFACTORED) ===
+const updateMousePosition = (e) => {
+  document.body.style.setProperty('--mouse-x', `${e.clientX}px`);
+  document.body.style.setProperty('--mouse-y', `${e.clientY}px`);
+};
 
+function manageCursorListener() {
+  if (window.innerWidth > 900) {
+    document.addEventListener('mousemove', updateMousePosition);
+  } else {
+    document.removeEventListener('mousemove', updateMousePosition);
+  }
+}
 
 // === Particle Effect ===
 const canvas = document.getElementById('particle-canvas');
@@ -333,18 +337,7 @@ window.addEventListener('resize', () => {
         setCanvasSize();
         initParticles();
         updateVisualizerPosition();
-        // Re-evaluate custom cursor on resize
-        if (window.innerWidth > 900) {
-          document.addEventListener('mousemove', (e) => {
-            document.body.style.setProperty('--mouse-x', `${e.clientX}px`);
-            document.body.style.setProperty('--mouse-y', `${e.clientY}px`);
-          });
-        } else {
-          document.removeEventListener('mousemove', (e) => {
-            document.body.style.setProperty('--mouse-x', `${e.clientX}px`);
-            document.body.style.setProperty('--mouse-y', `${e.clientY}px`);
-          });
-        }
+        manageCursorListener(); // Re-evaluate custom cursor on resize
     }, 150);
 });
 
@@ -422,6 +415,9 @@ function initialize() {
     pauseIcon.classList.add('hidden');
     isPlaying = false;
     updateVolumeIcon();
+
+    // Initialize custom cursor
+    manageCursorListener();
 
     // Initialize VanillaTilt on the music player
     // Ensure this runs after the DOM is fully loaded
