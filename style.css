@@ -261,12 +261,12 @@ p {
   text-shadow: 0 1px 3px rgba(0,0,0,0.4);
 }
 
-/* Socials */
+/* --- Socials (NEW & IMPROVED) --- */
 .socials {
   display: flex;
   gap: 1.2rem;
   margin-top: 2rem;
-  justify-content: flex-start; /* Ensure left alignment on desktop */
+  justify-content: flex-start;
 }
 
 .socials a {
@@ -278,24 +278,80 @@ p {
   background: var(--glass-bg);
   backdrop-filter: blur(8px);
   border: 1px solid var(--glass-br);
-  box-shadow: var(--shadow); /* Added for consistency */
-  transition: 0.25s;
-  position: relative;
-  overflow: hidden;
+  box-shadow: var(--shadow);
+  position: relative; /* For pseudo-element positioning */
+  overflow: hidden; /* To contain the effects */
+  transition: transform 0.4s ease-out, box-shadow 0.4s ease-out, border-color 0.4s ease-out;
 }
 
-.socials img {
+.socials a::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  opacity: 0; /* Start transparent */
+  z-index: 0;
+  transition: opacity 0.4s ease-out;
+}
+
+.socials a img {
   width: 60%;
   pointer-events: none;
   user-select: none;
+  position: relative;
+  z-index: 1; /* Keep icon above the background effect */
+  transition: transform 0.4s ease-out, filter 0.4s ease-out;
 }
 
 .socials a:hover {
-  transform: translateY(-4px) scale(1.05);
-  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
-/* Removed old volume capsule styles */
+.socials a:hover::before {
+  opacity: 1; /* Fade in the background on hover */
+}
+
+.socials a:hover img {
+  transform: scale(1.1);
+}
+
+/* Specific Social Button Styles */
+
+/* Instagram */
+.socials a[href*="instagram.com"]::before {
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+}
+
+/* Spotify */
+.socials a[href*="spotify.com"]::before {
+   background: #1DB954;
+}
+.socials a[href*="spotify.com"]:hover img {
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.5));
+}
+
+/* Steam */
+.socials a[href*="steamcommunity.com"]::before {
+  background: radial-gradient(circle, #2a475e 0%, #1b2838 70%);
+}
+
+/* TikTok */
+.socials a[href*="tiktok.com"]::before {
+  background: #010101;
+}
+.socials a[href*="tiktok.com"]:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 10px 2px #ff0050, 0 0 10px 2px #00f2ea;
+}
+
+/* YouTube */
+.socials a[href*="youtube.com"]::before {
+  background: #FF0000;
+}
+.socials a[href*="youtube.com"]:hover img {
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.7));
+}
 
 
 /* Ripple Effect */
